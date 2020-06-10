@@ -1,0 +1,26 @@
+library(dplyr)
+
+y = read.delim("clipboard", header = FALSE)
+
+DPT_JK <- function (kab, kec, kel,tps) {
+  h <- list ()
+  z <- list ()
+  a <- list ()
+  b <- list ()
+  c <- list ()
+  for (i in y) {
+    h[[i]] <- read.csv(paste0("E:/",kab,"/",kec,"/",kel,"/","TPS_",i,".csv")) 
+    h[[i]]$TPS <- i
+  }
+  data <- do.call(rbind, h)
+  for (j in y) {
+    a [[j]] <- filter(data, TPS == j)
+    b [[j]] <- (summary (a[[j]]$X4))
+    c [[j]] <- j
+    z [[j]] <-data.frame("KABUPATEN/KOTA" =  kab, "KECAMATAN" = kec, "TPS" = c[[j]], b[[j]]) 
+  }
+  fix <- do.call (rbind, z)
+  return (fix)
+}
+
+x = DPT_JK("KOTA SURABAYA","KEC. ASEM ROWO","KEL. GENTING KALIANAK",18)
